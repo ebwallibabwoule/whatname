@@ -1,7 +1,7 @@
 .balloon {
   font-size: 40px;
   display: block;
-  padding: .8em .5em;
+  padding: .8em 0em;
   position: relative;
   border-radius: .4em;
   background: palegoldenrod;
@@ -16,7 +16,7 @@
     background: transparent;
     text-align: center;
     font-size: 30px;
-    font-family: "Comic Sans MS";
+    font-family: 'Comic Sans MS', 'Marker Felt', sans-serif;
     ion-label {
       white-space: normal;
     }
