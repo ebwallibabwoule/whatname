@@ -1,0 +1,8 @@
+<ion-list>
+    <ion-item-divider>
+        <ion-icon item-start color="primary"  name="person"></ion-icon>
+        <h2>Your data</h2>
+    </ion-item-divider>
+    <ion-item>E-mail: {{ user?.email }}</ion-item>
+    <ion-item *ngIf="userData && userData.connected">Connected: {{ userData.connected }}</ion-item>
+</ion-list>

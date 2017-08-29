@@ -1,0 +1,13 @@
+<ion-list>
+    <ion-item-divider>
+        <ion-icon name="person-add" color="primary" item-start></ion-icon>
+        <h2>Invite a friend!</h2>
+    </ion-item-divider>
+    <ion-item>
+        <ion-input placeholder="Type in your friends email" type="email" (change)="checkEmail($event)" (keyup)="checkEmail($event)"></ion-input>
+    </ion-item>
+    <ion-item>
+        <a ion-button block disabled *ngIf="!validEmail" href="#">Invite</a>
+        <a ion-button block *ngIf="validEmail" href="{{ mailLink }}">Invite</a>
+    </ion-item>
+</ion-list>

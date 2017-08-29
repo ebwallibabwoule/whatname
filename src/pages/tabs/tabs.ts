@@ -1,19 +1,25 @@
 import { Component } from '@angular/core';
-
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
-import { HomePage } from '../home/home';
+import { AccountPage } from '../account/account';
+import { BoyPage } from '../boy/boy';
+import { GirlPage } from '../girl/girl';
+import { SettingsPage } from '../settings/settings';
+import { AuthProvider } from '../../providers/auth';
 
 @Component({
   templateUrl: 'tabs.html'
 })
+
 export class TabsPage {
 
-  tab1Root = HomePage;
-  tab2Root = AboutPage;
-  tab3Root = ContactPage;
+  tab1Root = AccountPage;
+  tab2Root = BoyPage;
+  tab3Root = GirlPage;
+  tab4Root = SettingsPage;
+  user;
 
-  constructor() {
-
+  constructor( private auth: AuthProvider ) {
+    this.auth.getUser().subscribe(user => {
+      this.user = user;
+    });
   }
 }

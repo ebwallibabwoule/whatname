@@ -1,0 +1,113 @@
+<ion-grid>
+    <ion-row *ngIf="!(matched && matched.boy && matched.boy.length > 0) &&
+                    !(matched && matched.girl && matched.girl.length > 0) && visible">
+        <ion-col col-12>
+            <ion-item color="warning">
+                <ion-icon name="warning" item-start=""></ion-icon>
+                <h3>No matches yet</h3>
+                <p>Connect to another user and see if your favorites match!</p>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="!(voted && voted.boy && voted.boy.length > 0) &&
+                    !(voted && voted.girl && voted.girl.length > 0) && visible">
+        <ion-col col-12>
+            <ion-item color="warning">
+                <ion-icon name="warning" item-start=""></ion-icon>
+                <h3>No favorites yet</h3>
+                <p>Start rating!</p>
+            </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ng-container *ngFor="let gender of objectKeys(matched)">
+            <ion-col col-12 col-md-6>
+                <ion-list>
+                    <ion-item-divider>
+                        <ion-icon color="{{ gender }}" name="link" item-start></ion-icon>
+                        <h2>Matched {{ gender }} names</h2>
+                    </ion-item-divider>
+                    <ng-container *ngIf="matched && matched[gender] && matched[gender].length > 0">
+                        <ng-container *ngFor="let item of matched[gender]">
+                            <ion-item>
+                                <h3> {{ item }} </h3>
+                            </ion-item>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!matched || !matched[gender] || matched[gender].length == 0">
+                        <ion-item>
+                            <h3>No data yet!</h3>
+                        </ion-item>
+                    </ng-container>
+                </ion-list>
+            </ion-col>
+        </ng-container>
+    </ion-row>
+    <ion-row>
+        <ng-container *ngFor="let gender of objectKeys(voted)">
+            <ion-col col-12 col-md-6>
+                <ion-list>
+                    <ion-item-divider>
+                        <ion-icon color="{{ gender }}" name="thumbs-up" item-start></ion-icon>
+                        <h2>Favorite {{ gender }} names</h2>
+                    </ion-item-divider>
+                    <ng-container *ngIf="voted && voted[gender] && voted[gender].length > 0">
+                        <ng-container *ngFor="let item of voted[gender]">
+                            <ion-item-sliding #slidingItemprepop>
+                                <ion-item #itemprepop>
+                                    <h3> {{ item.$value }} </h3>
+                                </ion-item>
+                                <ion-item-options side="right">
+                                    <button ion-button color="unliked" (click)="vote(gender, item, false)">
+                                        <ion-icon name="thumbs-down"></ion-icon>
+                                    </button>
+                                    <button ion-button color="primary" (click)="remove(gender, item)">
+                                        <ion-icon name="trash"></ion-icon>
+                                    </button>
+                                </ion-item-options>
+                            </ion-item-sliding>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!voted || !voted[gender] || voted[gender].length == 0">
+                        <ion-item>
+                            <h3>No data yet!</h3>
+                        </ion-item>
+                    </ng-container>
+                </ion-list>
+            </ion-col>
+        </ng-container>
+
+        <ng-container *ngFor="let gender of objectKeys(unliked)">
+            <ion-col col-12 col-md-6>
+                <ion-list>
+                    <ion-item-divider>
+                        <ion-icon color="{{ gender }}" name="thumbs-down" item-start></ion-icon>
+                        <h2>Not liked {{ gender }} names</h2>
+                    </ion-item-divider>
+                    <ng-container *ngIf="unliked && unliked[gender] && unliked[gender].length > 0">
+                        <ng-container *ngFor="let item of unliked[gender]">
+                            <ion-item-sliding #slidingItemprepop>
+                                <ion-item #itemprepop>
+                                    <h3> {{ item.$value }} </h3>
+                                </ion-item>
+                                <ion-item-options side="right">
+                                    <button ion-button color="liked" (click)="vote(gender, item)">
+                                        <ion-icon name="thumbs-up"></ion-icon>
+                                    </button>
+                                    <button ion-button color="primary" (click)="remove(gender, item, false)">
+                                        <ion-icon name="trash"></ion-icon>
+                                    </button>
+                                </ion-item-options>
+                            </ion-item-sliding>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!unliked || !unliked[gender] || unliked[gender].length == 0">
+                        <ion-item>
+                            <h3>No data yet!</h3>
+                        </ion-item>
+                    </ng-container>
+                </ion-list>
+            </ion-col>
+        </ng-container>
+    </ion-row>
+</ion-grid>

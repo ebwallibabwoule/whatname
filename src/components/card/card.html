@@ -1,0 +1,43 @@
+<ion-content padding *ngIf="subset && subset.length > 0">
+    <div class="wiggle" swing-stack #swingstack [stackConfig]="stackConfig" (throwoutleft)="vote(false)" (throwoutright)="vote(true)"
+         id="card-stack">
+        <ion-card class="balloon zoom-pop-late" #swingcards swing-card *ngFor="let name of card">
+            <ion-item>
+                {{ name.$value }}
+            </ion-item>
+        </ion-card>
+    </div>
+    <div class="kawaii zoom-pop">
+        <div class="eyes">
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+
+    <ion-fab left top>
+        <button ion-fab color="primary" (click)="vote(false)">
+            <ion-icon name="thumbs-down"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-fab right top>
+        <button ion-fab color="primary" (click)="vote(true)">
+            <ion-icon name="thumbs-up"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-fab center bottom>
+        <button ion-fab color="danger" (click)="sneak()">
+            <ion-icon name="trash"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>
+<!--<ion-content padding text-center *ngIf="subset">-->
+    <!--<span class="balloon zoom-pop-late">You have seen all {{gender}} names!</span>-->
+    <!--<div class="kawaii zoom-pop">-->
+        <!--<div class="eyes">-->
+            <!--<div class="eye eye-left"></div>-->
+            <!--<div class="eye eye-right"></div>-->
+        <!--</div>-->
+        <!--<div class="mouth"></div>-->
+    <!--</div>-->
+<!--</ion-content>-->

@@ -1,0 +1,151 @@
+.balloon {
+  font-size: 40px;
+  display: block;
+  padding: .8em .5em;
+  position: relative;
+  border-radius: .4em;
+  background: palegoldenrod;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 50vw;
+  min-width: 252px;
+  overflow: visible;
+  box-shadow: none;
+  cursor: move;
+  .item {
+    background: transparent;
+    text-align: center;
+    font-size: 30px;
+    font-family: "Comic Sans MS";
+    ion-label {
+      white-space: normal;
+    }
+  }
+}
+
+.balloon:before {
+  content: "";
+  position: absolute;
+  bottom: -.4em;
+  right: auto;
+  left: 40%;
+  top: auto;
+  display: block;
+  background: transparent;
+  border: .4em solid transparent;
+  border-top: .4em solid palegoldenrod;
+  border-right: .4em solid palegoldenrod;
+}
+
+div.kawaii {
+  position: relative;
+  z-index: 99;
+  border-radius: 4em;
+  background: #A8B3ED;
+  height: 20em;
+  width: 18em;
+  margin: 2em auto 0;
+}
+
+div.kawaii .eyes .eye {
+  position: absolute;
+  top: 6em;
+  height: 1.3em;
+  width: 1.3em;
+  background: black;
+  border-radius: 50%;
+  animation: 8s linear 0s infinite squint;
+  transform-origin: 50% 50%;
+}
+
+div.kawaii .eyes .eye-left{
+  left: 4em;
+}
+
+div.kawaii .eyes .eye-right {
+  right: 4em;
+}
+
+div.kawaii .mouth {
+  position: absolute;
+  top: 9em;
+  left: calc(50% - 1.5em);
+  height: 1.3em;
+  width: 3em;
+  background: black;
+  border-bottom-left-radius: 40%;
+  border-bottom-right-radius: 40%;
+}
+
+.zoom-pop {
+  animation: zoom-pop ease-in-out .4s;
+  animation-iteration-count: 1;
+  transform-origin: 50% 50%;
+}
+
+.wiggle {
+  animation: wiggle linear 1s;
+  animation-iteration-count: 2;
+  transform-origin: 50% 50%;
+  position: relative;
+  z-index: 100;
+}
+
+@keyframes zoom-pop {
+  0% {
+    opacity: 0.0;
+    transform: scale(0.00) ;
+  }
+  62% {
+    opacity: 0.8;
+    transform: scale(1.20) ;
+  }
+  100% {
+    opacity:1;
+    transform: scale(1.00) ;
+  }
+}
+
+.zoom-pop-late {
+  animation: zoom-pop ease-in-out .8s;
+}
+
+@keyframes wiggle {
+  0% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  25% {
+    opacity: 1;
+    transform: translateX(30px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  75% {
+    opacity: 1;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes squint {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  98% {
+    transform: rotateX(0deg);
+  }
+  99% {
+    transform: rotateX(76deg);
+  }
+
+  100% {
+    transform: rotateX(0deg);
+  }
+}

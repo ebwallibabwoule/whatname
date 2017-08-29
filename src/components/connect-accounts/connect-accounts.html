@@ -1,0 +1,19 @@
+<form (ngSubmit)="connect()">
+
+    <ion-list>
+        <ion-item-divider>
+            <ion-icon name="link" color="primary" item-start></ion-icon>
+            <h2>Connect to another user</h2>
+        </ion-item-divider>
+
+        <ion-item>
+            <ion-input placeholder="Type in the code received by email" type="text" [(ngModel)]="account.code"
+                       name="code"></ion-input>
+        </ion-item>
+        <ion-item>
+            <button *ngIf="account.code.length < 30" ion-button block disabled>Connect</button>
+            <button *ngIf="account.code.length >= 30" ion-button block type="submit">Connect</button>
+        </ion-item>
+
+    </ion-list>
+</form>

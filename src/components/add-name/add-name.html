@@ -1,0 +1,26 @@
+<ion-list>
+    <form (ngSubmit)="addName()">
+        <ion-item-divider>
+            <ion-icon name="add-circle" color="primary" item-start></ion-icon>
+            <h2>Add a name to your favorites list</h2>
+        </ion-item-divider>
+        <ion-item>
+            <ion-input placeholder="Type in your own favorite name" type="text" [(ngModel)]="name.name" name="name"></ion-input>
+        </ion-item>
+
+        <ion-list radio-group [(ngModel)]="name.gender" name="gender">
+            <ion-item>
+                <ion-label>Boy</ion-label>
+                <ion-radio value="boy" checked="true"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Girl</ion-label>
+                <ion-radio value="girl"></ion-radio>
+            </ion-item>
+        </ion-list>
+        <ion-item text-center>
+            <button ion-button block type="submit">Add name</button>
+        </ion-item>
+    </form>
+</ion-list>

@@ -1,0 +1,17 @@
+<ion-list>
+    <ion-list-header>Create account</ion-list-header>
+    <form (ngSubmit)="register()">
+        <ion-item>
+            <ion-input placeholder="Email" type="text" [(ngModel)]="account.email" name="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-input placeholder="Password" type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <button ion-button block type="submit">Create account</button>
+        </ion-item>
+    </form>
+</ion-list>
+
