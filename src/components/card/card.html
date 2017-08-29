@@ -1,4 +1,4 @@
-<ion-content padding *ngIf="subset && subset.length > 0">
+<ion-content padding>
     <div class="wiggle" swing-stack #swingstack [stackConfig]="stackConfig" (throwoutleft)="vote(false)" (throwoutright)="vote(true)"
          id="card-stack">
         <ion-card class="balloon zoom-pop-late" #swingcards swing-card *ngFor="let name of card">

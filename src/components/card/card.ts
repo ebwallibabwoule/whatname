@@ -27,7 +27,7 @@ export class CardComponent {
 
   @Input() gender: string = 'girl';
   @Input() names;
-  @Input() user;
+  user;
 
 
   constructor( private data: DataProvider, private utils: UtilsProvider ) {
@@ -51,26 +51,32 @@ export class CardComponent {
       });
     }
 
-    this.getSubset();
-    console.log('ddfregrthyjyhrtegrgthryjhteg', this.user.$key);
+    this.data.getUserData().subscribe((user) => {
 
-    this.data.list('users/' + this.user.$key + '/names/' + this.gender).subscribe(votes => {
-    console.log('1ddfregrthyjyhrtegrgthryjhteg', this.user.$key);
+      this.user = user;
+      this.getSubset();
+      console.log('ddfregrthyjyhrtegrgthryjhteg', this.user.$key);
 
-      let excludedNamesArray = [];
+      this.data.list('users/' + this.user.$key + '/names/' + this.gender).subscribe(votes => {
+        console.log('1ddfregrthyjyhrtegrgthryjhteg', this.user.$key);
 
-      for (let i = 0; i <= votes.length; i++) {
-        for (let vote in votes[ i ]) {
-          excludedNamesArray.push(votes[ i ][ vote ]);
+        let excludedNamesArray = [];
+
+        for (let i = 0; i <= votes.length; i++) {
+          for (let vote in votes[ i ]) {
+            excludedNamesArray.push(votes[ i ][ vote ]);
+          }
         }
-      }
 
-      this.subset = this.utils.substractArray(this.subset, excludedNamesArray);
-      if (this.subset.length >= 0) {
-        this.addNewCard();
-    console.log('3ddfregrthyjyhrtegrgthryjhteg', this.user.$key);
-      }
+        this.subset = this.utils.substractArray(this.subset, excludedNamesArray);
+        if (this.subset.length >= 0) {
+          this.addNewCard();
+          console.log('3ddfregrthyjyhrtegrgthryjhteg', this.user.$key);
+        }
+      });
+
     });
+
 
   }
 

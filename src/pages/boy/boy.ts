@@ -19,8 +19,9 @@ export class BoyPage {
       content: 'Loading boy names'
     });
 
-    data.getUserData().subscribe((user) => {
+    let bla = data.getUserData().subscribe((user) => {
       this.user = user;
+      bla.unsubscribe();
     });
 
     loading.present();
