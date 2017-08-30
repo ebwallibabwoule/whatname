@@ -1,23 +1,31 @@
-<ion-content *ngIf="!user">
+<!--<ion-grid *ngIf="!user">-->
+    <!--<ion-row>-->
+        <!--<ion-col col-12 col-md-6 push-md-3 col-lg-4 push-lg-4>-->
+            <!--<ion-list>-->
+                <!--<ion-list-header>Log in</ion-list-header>-->
+                <!--<form (ngSubmit)="login('email')">-->
+                    <!--<ion-item>-->
+                        <!--<ion-input placeholder="Email" type="text" [(ngModel)]="account.email" name="email"></ion-input>-->
+                    <!--</ion-item>-->
+                    <!--<ion-item>-->
+                        <!--<ion-input placeholder="Password" type="password" [(ngModel)]="account.password"-->
+                                   <!--name="password"></ion-input>-->
+                    <!--</ion-item>-->
+                    <!--<ion-item text-center>-->
+                        <!--<button ion-button block type="submit">Log in</button>-->
+                    <!--</ion-item>-->
+                    <!--<ion-item>-->
+                        <!--<span>OR</span>-->
+                    <!--</ion-item>-->
+                    <!--<ion-item>-->
+                        <!--<button ion-button block (click)="goToRegister()">Create account</button>-->
+                    <!--</ion-item>-->
+                <!--</form>-->
+            <!--</ion-list>-->
+        <!--</ion-col>-->
+    <!--</ion-row>-->
+<!--</ion-grid>-->
 
-    <form (ngSubmit)="login('email')">
-        <ion-item>
-            <ion-input placeholder="Email" type="text" [(ngModel)]="account.email" name="email"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-input placeholder="Password" type="password" [(ngModel)]="account.password" name="password"></ion-input>
-        </ion-item>
-        <ion-item text-center>
-            <button ion-button block type="submit">Log in</button>
-        </ion-item>
-    </form>
-    <ion-item>
-        <span>OR</span>
-    </ion-item>
-    <ion-item>
-        <button ion-button block (click)="goToRegister()">Create account</button>
-    </ion-item>
-</ion-content>
 
 <ion-content *ngIf="user">
     <liked></liked>

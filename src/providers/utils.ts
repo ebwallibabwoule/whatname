@@ -42,9 +42,12 @@ export class UtilsProvider {
   }
 
   public substractArray( array1, array2 ) {
-    return array1.filter(function ( x ) {
-      return array2.indexOf(x.$value) < 0;
-    });
+    if (array1 && array2) {
+      return array1.filter(function ( x ) {
+        return array2.indexOf(x.$value) < 0;
+      });
+    }
+    return false;
   }
 
   public toast(options) {

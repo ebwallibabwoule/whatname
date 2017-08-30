@@ -22,8 +22,8 @@ export class CardComponent {
   cardsIn: Array<any> = [];
   stackConfig: StackConfig;
   recentCard: string = '';
-  key: string = '';
   subset;
+  excludedNamesArray: Array<any> = [];
 
   @Input() gender: string = 'girl';
   @Input() names;
@@ -51,33 +51,24 @@ export class CardComponent {
       });
     }
 
-    this.data.getUserData().subscribe((user) => {
+    let userService = this.data.getUserData().subscribe(( user ) => {
+
+      userService.unsubscribe();
 
       this.user = user;
-      this.getSubset();
-      console.log('ddfregrthyjyhrtegrgthryjhteg', this.user.$key);
-
       this.data.list('users/' + this.user.$key + '/names/' + this.gender).subscribe(votes => {
-        console.log('1ddfregrthyjyhrtegrgthryjhteg', this.user.$key);
 
-        let excludedNamesArray = [];
+        this.excludedNamesArray = [];
 
         for (let i = 0; i <= votes.length; i++) {
           for (let vote in votes[ i ]) {
-            excludedNamesArray.push(votes[ i ][ vote ]);
+            this.excludedNamesArray.push(votes[ i ][ vote ]);
           }
         }
 
-        this.subset = this.utils.substractArray(this.subset, excludedNamesArray);
-        if (this.subset.length >= 0) {
-          this.addNewCard();
-          console.log('3ddfregrthyjyhrtegrgthryjhteg', this.user.$key);
-        }
+        this.addNewCard();
       });
-
     });
-
-
   }
 
   onItemMove( element, x, y, r ) {
@@ -86,8 +77,6 @@ export class CardComponent {
 
   vote( like: boolean ) {
     this.recentCard = this.card[ 0 ].$value;
-
-    console.log('dd', like, this.user, this.gender, this.recentCard, 'users/' + this.user.$key + '/names/' + this.gender + '/liked', this.recentCard);
     if (like) {
       this.data.push('users/' + this.user.$key + '/names/' + this.gender + '/liked', this.recentCard);
     }
@@ -98,21 +87,28 @@ export class CardComponent {
 
   addNewCard() {
     this.card = [];
-    if (this.subset.length > 0) {
+    this.getSubset();
+    if (this.subset && this.subset.length > 0) {
       this.card = this.subset;
-      this.subset.indexOf(this.subset, this.card[ 0 ].$value)
-    }
-    else {
-      this.getSubset();
-      this.addNewCard()
+      this.subset.indexOf(this.subset, this.card[ 0 ].$value);
     }
   }
 
   getSubset() {
     const amount = 1;
-    const random = Math.floor(Math.random() * this.names.length);
-    const r = (random >= this.names.length - amount ) ? this.names.length : random;
-    this.subset = this.names.slice(r, r + amount);
+    const a = this.utils.substractArray(this.names, this.excludedNamesArray);
+    const random = Math.floor(Math.random() * a.length);
+    const r = (random >= a.length - amount ) ? a.length - amount : random;
+
+    this.subset = a.slice(r, r + amount);
+    //
+    console.log('1this.subset', this.subset);
+    console.log('1this.excludedNamesArray', this.excludedNamesArray);
+    console.log('1a', a);
+    console.log('1r', r);
+    console.log('1random', random);
+    console.log('1slice', a.slice(r, r + amount));
+
   }
 
   decimalToHex( d, padding ) {
@@ -128,7 +124,5 @@ export class CardComponent {
 
   sneak() {
     this.data.push('users/' + this.user.$key + '/names/' + this.gender + '/excluded', this.card[ 0 ].$value);
-
-    //
   }
 }

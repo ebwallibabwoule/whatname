@@ -38,29 +38,37 @@
 
             </ion-col>
         </ion-row>
-
-
     </ion-grid>
 </ion-content>
 
 <ion-content *ngIf="!user">
+    <ion-grid>
+        <ion-row>
+            <ion-col col-12 col-md-6 push-md-3 col-lg-4 push-lg-4>
+                <form (ngSubmit)="login('email')">
+                    <ion-item>
+                        <ion-input placeholder="Email" type="text" [(ngModel)]="account.email" name="email"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input placeholder="Password" type="password" [(ngModel)]="account.password"
+                                   name="password"></ion-input>
+                    </ion-item>
+                    <ion-item text-center>
+                        <button col-12 push-lg-6 col-lg-6 ion-button block type="submit">Log in</button>
+                    </ion-item>
+                </form>
+                <ion-item>
+                    <ion-row align-items-center>
+                        <ion-col no-padding col-12 col-lg-6>
+                            <span>No account yet?</span>
+                        </ion-col>
+                        <ion-col no-padding col-12 col-lg-6>
+                            <button ion-button block (click)="goToRegister()">Create account</button>
+                        </ion-col>
+                    </ion-row>
+                </ion-item>
 
-    <form (ngSubmit)="login('email')">
-        <ion-item>
-            <ion-input placeholder="Email" type="text" [(ngModel)]="account.email" name="email"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-input placeholder="Password" type="password" [(ngModel)]="account.password"
-                       name="password"></ion-input>
-        </ion-item>
-        <ion-item text-center>
-            <button ion-button block type="submit">Log in</button>
-        </ion-item>
-    </form>
-    <ion-item>
-        <span>OR</span>
-    </ion-item>
-    <ion-item>
-        <button ion-button block (click)="goToRegister()">Create account</button>
-    </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

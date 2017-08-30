@@ -12,9 +12,9 @@ export class InviteComponent {
   uri: string = 'mailto:';
   emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   subject: string = 'Find a nice baby name with me';
-  body: string = 'Hi!\nI would like to invite you to the \"What Name?!\" baby name finder app to find a great baby name together!\n\nWhat to do next?\n' +
-    '1. Go to http://www.emmanuelweethetwel.nl/whatname or Download and install the app from your app store. Look for \'What Name\'\n' +
-    '2. Open the app, sign up and connect with the following code: %%code%%\n' +
+  body: string = 'Hi!\nI would like to invite you to the \"WhatName!\" app. Find a great baby name together!\n\nWhat to do next?\n' +
+    '1. Go to http://www.emmanuelweethetwel.nl/whatname or download and install the app from your app store. Look for \'WhatName!\'\n' +
+    '2. Open the app or site, sign up and connect with the following code: %%code%%\n' +
     '3. Swipe and vote, and see which names will match my favorites!\n\n' +
     'Have fun!';
   matchcode: string = '';

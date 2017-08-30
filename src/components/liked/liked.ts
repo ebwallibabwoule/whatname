@@ -19,6 +19,7 @@ export class LikedComponent {
   matched = { 'boy': [], 'girl': [] };
   key: string = '';
   visible: boolean = false;
+  unlikedVisible: boolean = false;
   objectKeys: any = Object.keys;
   // monster = {
   //   'boys': {
@@ -47,16 +48,6 @@ export class LikedComponent {
         // this.monster.girl.liked = votes;
       });
 
-      this.data.list('users/' + this.key + '/names/boy/unliked').subscribe(votes => {
-        this.unliked.boy = votes;
-        // this.monster.boy.unliked = votes;
-      });
-
-      this.data.list('users/' + this.key + '/names/girl/unliked').subscribe(votes => {
-        this.unliked.girl = votes;
-        // this.monster.girl.unliked = votes;
-      });
-
       if (data.match) {
         this.data.getMatchedUserData().subscribe(matchedData => {
           this.data.list('users/' + matchedData.$key + '/names/boy/liked').subscribe(votes => {
@@ -80,6 +71,18 @@ export class LikedComponent {
         this.prepop();
       }, 1000
     );
+  }
+
+  private getUnliked() {
+    this.unlikedVisible = true;
+
+    this.data.list('users/' + this.key + '/names/boy/unliked').subscribe(votes => {
+      this.unliked.boy = votes;
+    });
+
+    this.data.list('users/' + this.key + '/names/girl/unliked').subscribe(votes => {
+      this.unliked.girl = votes;
+    });
   }
 
   private vote( gender, item, like = true ) {

@@ -13,15 +13,17 @@ import { DataProvider } from '../../providers/data';
 export class BoyPage {
   names: Array<any>;
   user;
+  debug = false;
+  root = (!this.debug) ? '/names': '/testnames';
 
   constructor( public data: DataProvider, public loadingCtrl: LoadingController, private nativeStorage: NativeStorage, private storage: Storage, private platform: Platform ) {
     let loading = this.loadingCtrl.create({
       content: 'Loading boy names'
     });
 
-    let bla = data.getUserData().subscribe((user) => {
+    let userService = data.getUserData().subscribe((user) => {
       this.user = user;
-      bla.unsubscribe();
+      userService.unsubscribe();
     });
 
     loading.present();
@@ -33,7 +35,7 @@ export class BoyPage {
           loading.dismiss();
         },
         ( error ) => {
-          this.data.list('/names/boy').subscribe(names => {
+          this.data.list(this.root + '/boy').subscribe(names => {
             this.names = names;
             this.nativeStorage.setItem('boyNames', names);
             loading.dismiss();
@@ -48,7 +50,7 @@ export class BoyPage {
           loading.dismiss();
         }
         else {
-          this.data.list('/names/boy').subscribe(names => {
+          this.data.list(this.root + '/boy').subscribe(names => {
             this.names = names;
 
             this.storage.set('boyNames', names);
