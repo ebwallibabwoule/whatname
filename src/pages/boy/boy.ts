@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-import { LoadingController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-import { NativeStorage } from '@ionic-native/native-storage';
-import { Platform } from 'ionic-angular';
 import { DataProvider } from '../../providers/data';
+import { UtilsProvider } from '../../providers/utils';
 
 @Component({
   selector: 'boy',
@@ -13,51 +10,17 @@ import { DataProvider } from '../../providers/data';
 export class BoyPage {
   names: Array<any>;
   user;
-  debug = false;
-  root = (!this.debug) ? '/names': '/testnames';
 
-  constructor( public data: DataProvider, public loadingCtrl: LoadingController, private nativeStorage: NativeStorage, private storage: Storage, private platform: Platform ) {
-    let loading = this.loadingCtrl.create({
-      content: 'Loading boy names'
-    });
+  constructor( private data: DataProvider,
+               private utils: UtilsProvider) {
 
-    let userService = data.getUserData().subscribe((user) => {
+    utils.load({ text: 'Loading boy names', show: true });
+    data.getUserData().subscribe(( user ) => {
       this.user = user;
-      userService.unsubscribe();
-    });
-
-    loading.present();
-    if (this.platform.is('cordova')) {
-
-      nativeStorage.getItem('boyNames').then(
-        ( storageNames ) => {
-          this.names = storageNames;
-          loading.dismiss();
-        },
-        ( error ) => {
-          this.data.list(this.root + '/boy').subscribe(names => {
-            this.names = names;
-            this.nativeStorage.setItem('boyNames', names);
-            loading.dismiss();
-          });
-        }
-      );
-    }
-    else {
-      storage.get('boyNames').then(( storageNames ) => {
-        if (storageNames) {
-          this.names = storageNames;
-          loading.dismiss();
-        }
-        else {
-          this.data.list(this.root + '/boy').subscribe(names => {
-            this.names = names;
-
-            this.storage.set('boyNames', names);
-            loading.dismiss();
-          });
-        }
+      this.data.list('users/' + this.user.$key + '/names/boy/repo').subscribe(names => {
+        this.names = names;
+        this.utils.load({ show: false });
       });
-    }
+    });
   }
 }

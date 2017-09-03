@@ -33,49 +33,44 @@ export class RegisterComponent {
           this.user = data;
           message = 'Welcome!';
 
-          this.createValue('uid', data.uid);
-          this.setUpAccount();
+          this.data.setUserValue('uid', data.uid).subscribe(() => {
+            this.setUpAccount();
+          });
 
           this.navCtrl.push(AccountPage);
         }
 
-        this.utils.toast({message: message});
+        this.utils.toast({ message: message });
       }
     );
   }
 
-  createValue( key, value ) {
-    const root = 'users';
-
-    const matchingUser = this.data.list(root, {
-      query: {
-        orderByChild: 'uid',
-        equalTo: this.user.uid
-      }
-    });
-
-    matchingUser.subscribe(userResult => {
-      this.userData = userResult[ 0 ];
-      if (userResult.length == 1) {
-        const user = userResult[ 0 ];
-        if (!user.hasOwnProperty(key)) {
-
-          user[ key ] = value;
-          this.data.object(root + '/' + user.$key).set(user);
-        }
-      }
-      else if (userResult.length == 0 && key == 'uid') {
-        const bla = [];
-        bla[ key ] = value;
-        matchingUser.push(bla);
-      }
-    });
-  }
-
   setUpAccount() {
-    this.createValue('uid', this.user.uid);
-    this.createValue('id', this.user.email);
-    this.createValue('matchcode', this.generateRandomString());
+    const userService = this.data.object('names').subscribe(names => {
+      const nameSetSize: number = 100;
+
+      const namesInfo = {
+        'boy': {
+          'totalset': Math.ceil( names.boy.length / nameSetSize ),
+          'currentset': 1,
+          'setsize': nameSetSize,
+          'repo': names.boy.slice(0, nameSetSize)
+        },
+        'girl': {
+          'totalset': Math.ceil( names.girl.length / nameSetSize ),
+          'currentset': 1,
+          'setsize': nameSetSize,
+          'repo': names.girl.slice(0, nameSetSize)
+        }
+      };
+
+      this.data.setUserValue('id', this.user.email).subscribe();
+      this.data.setUserValue('matchcode', this.generateRandomString()).subscribe();
+      this.data.setUserValue('names', namesInfo).subscribe();
+
+
+      userService.unsubscribe();
+    });
   }
 
   generateRandomString() {

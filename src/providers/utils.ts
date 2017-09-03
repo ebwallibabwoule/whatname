@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ToastController } from 'ionic-angular';
+import { Platform, ToastController } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+import { NativeStorage } from '@ionic-native/native-storage';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UtilsProvider {
-  constructor(public toastCtrl: ToastController) {
+  loading;
+
+  constructor( private toastCtrl: ToastController,
+               private nativeStorage: NativeStorage,
+               private storage: Storage,
+               private platform: Platform,
+               private loadingCtrl: LoadingController) {
   }
 
   public convertListArray( array ) {
@@ -50,14 +60,66 @@ export class UtilsProvider {
     return false;
   }
 
-  public toast(options) {
+  public toast( options ) {
     const defaults = {
-      duration: 1000,
+      duration: 2000,
       position: 'bottom',
       cssClass: 'colorized'
     };
 
     this.toastCtrl.create(Object.assign(defaults, options)).present();
+  }
 
+
+  public setStorage( storeName, data ) {
+    if (this.platform.is('cordova')) {
+      this.nativeStorage.setItem(storeName, data);
+    }
+    else {
+      this.storage.set(storeName, data);
+    }
+  }
+
+  public getStorage( storeName ) {
+    return Observable.create(
+      observer => {
+        if (this.platform.is('cordova')) {
+          this.nativeStorage.getItem(storeName).then(
+            ( data ) => {
+              observer.next(data);
+            },
+            ( error ) => {
+              observer.next(error);
+            }
+          );
+        }
+        else {
+          console.log('nietcordova');
+          this.storage.get(storeName).then(( data ) => {
+            console.log('nietcordova data?', data);
+            if (data) {
+            console.log('nietcordova data!', data);
+              observer.next(data);
+            }
+            else {
+              console.log('nietcordova error!');
+              observer.next(false);
+            }
+          });
+        }
+      }
+    );
+  }
+
+  public load(options) {
+    if (options.show == true) {
+      this.loading = this.loadingCtrl.create({
+        content: (options.text) ? options.text: 'Loading...'
+      });
+      this.loading.present();
+    }
+    else {
+      this.loading.dismiss();
+    }
   }
 }

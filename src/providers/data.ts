@@ -70,4 +70,39 @@ export class DataProvider {
   object( path: string ): FirebaseObjectObservable<any> {
     return this.db.object(path);
   }
+
+  setUserValue( key, value ) {
+    return Observable.create(
+      observer => {
+        this.getUserData().subscribe(userData => {
+          const root = 'users';
+          const matchingUser = this.db.list(root, {
+            query: {
+              orderByChild: 'uid',
+              equalTo: userData.uid
+            }
+          });
+
+          const matchingUserService = matchingUser.subscribe(userResult => {
+            if (userResult.length == 1) {
+              const user = userResult[ 0 ];
+              if (!user.hasOwnProperty(key)) {
+
+                user[ key ] = value;
+                this.db.object(root + '/' + user.$key).set(user);
+              }
+            }
+            else if (userResult.length == 0 && key == 'uid') {
+              const tempArray = [];
+              tempArray[ key ] = value;
+              matchingUser.push(tempArray).then(() => {
+                observer.next();
+              });
+            }
+            matchingUserService.unsubscribe();
+          });
+        });
+      }
+    );
+  }
 }

@@ -45,6 +45,24 @@ div.kawaii {
   height: 20em;
   width: 18em;
   margin: 2em auto 0;
+  &:focus {
+    * {
+      animation: .2s linear 0s 3 match;
+    }
+  }
+  &.match {
+    animation: .2s linear 0s infinite match;
+    &:before {
+      content: "match!";
+      width: 100%;
+      text-align: center;
+      display: block;
+      padding: 10px 0;
+      position: absolute;
+      bottom: 25%;
+      animation: wiggle infinite 1s;
+    }
+  }
 }
 
 div.kawaii .eyes .eye {
@@ -91,6 +109,10 @@ div.kawaii .mouth {
   z-index: 100;
 }
 
+.zoom-pop-late {
+  animation: zoom-pop ease-in-out .8s;
+}
+
 @keyframes zoom-pop {
   0% {
     opacity: 0.0;
@@ -106,9 +128,6 @@ div.kawaii .mouth {
   }
 }
 
-.zoom-pop-late {
-  animation: zoom-pop ease-in-out .8s;
-}
 
 @keyframes wiggle {
   0% {
@@ -147,5 +166,29 @@ div.kawaii .mouth {
 
   100% {
     transform: rotateX(0deg);
+  }
+}
+
+@keyframes match {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px) ;
+  }
+  100% {
+    transform: translateY(0) ;
+  }
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

@@ -1,7 +1,7 @@
 import { Component, ViewChild, Input } from '@angular/core';
 import { DataProvider } from '../../providers/data';
-import { UtilsProvider } from '../../providers/utils';
 import 'rxjs/Rx';
+import 'rxjs/add/operator/take';
 
 import {
   StackConfig,
@@ -17,20 +17,16 @@ import {
 
 export class CardComponent {
   @ViewChild('swingstack') swingStack: SwingStackComponent;
-
-  card: Array<any> = [];
-  cardsIn: Array<any> = [];
   stackConfig: StackConfig;
-  recentCard: string = '';
-  subset;
-  excludedNamesArray: Array<any> = [];
+  endPoint: string = '';
+  cardStack: Array<any>;
+  noCardsMessage: string = 'Loading...';
+  user;
 
   @Input() gender: string = 'girl';
   @Input() names;
-  user;
 
-
-  constructor( private data: DataProvider, private utils: UtilsProvider ) {
+  constructor( private data: DataProvider ) {
     this.stackConfig = {
       throwOutConfidence: ( offsetX, offsetY, element ) => {
         return Math.min(Math.abs(offsetX) / (element.offsetWidth / 2), 1);
@@ -45,84 +41,70 @@ export class CardComponent {
   }
 
   ngAfterViewInit() {
-    if (this.cardsIn.length > 0) {
-      this.swingStack.throwin.subscribe(( event: DragEvent ) => {
-        event.target.style.background = '#ffffff';
-      });
-    }
-
-    let userService = this.data.getUserData().subscribe(( user ) => {
-
-      userService.unsubscribe();
-
+    this.data.getUserData().take(1).subscribe(( user ) => {
       this.user = user;
-      this.data.list('users/' + this.user.$key + '/names/' + this.gender).subscribe(votes => {
+      this.endPoint = 'users/' + this.user.$key + '/names/' + this.gender;
 
-        this.excludedNamesArray = [];
-
-        for (let i = 0; i <= votes.length; i++) {
-          for (let vote in votes[ i ]) {
-            this.excludedNamesArray.push(votes[ i ][ vote ]);
-          }
-        }
-
-        this.addNewCard();
-      });
+      this.addNewCard();
     });
   }
 
-  onItemMove( element, x, y, r ) {
+  private onItemMove( element, x, y, r ) {
     element.style[ 'transform' ] = `translate3d(0, 0, 0) translate(${x}px, ${y}px) rotate(${r}deg)`;
   }
 
-  vote( like: boolean ) {
-    this.recentCard = this.card[ 0 ].$value;
-    if (like) {
-      this.data.push('users/' + this.user.$key + '/names/' + this.gender + '/liked', this.recentCard);
+  private vote( like: boolean ) {
+    this.data.list(this.endPoint + '/repo').remove(this.cardStack[ 0 ].$key).then(() => {
+      if (like) {
+        console.log('liked!', this.cardStack[ 0 ].$value);
+        this.data.push(this.endPoint + '/liked', this.cardStack[ 0 ].$value);
+      }
+      else {
+        console.log('unliked!', this.cardStack[ 0 ].$value);
+        this.data.push(this.endPoint + '/unliked', this.cardStack[ 0 ].$value);
+      }
+
+      console.log('delll!', this.cardStack[ 0 ].$key);
+      this.addNewCard();
+    });
+  }
+
+  private addNewCard() {
+    this.cardStack = [];
+    if (this.names.length > 0) {
+      const newCard = this.names[ Math.floor(Math.random() * this.names.length) ];
+
+      if (newCard) {
+        this.cardStack.push(newCard);
+      }
     }
     else {
-      this.data.push('users/' + this.user.$key + '/names/' + this.gender + '/unliked', this.recentCard);
+      this.data.object(this.endPoint).take(1).subscribe(( userData ) => {
+        if (userData.totalset > userData.currentset) {
+          const newCurrentSet = userData.currentset + 1;
+          this.data.list('names/' + this.gender).take(1).subscribe(( names ) => {
+            this.names = names.slice(userData.currentset * userData.setsize, newCurrentSet * userData.setsize);
+
+            let key = [];
+            for (let a = 0; a < this.names.length; a++) {
+              key[ this.names[ a ].$key ] = this.names[ a ].$value;
+              this.data.object(this.endPoint + '/repo').set(key);
+            }
+
+            this.data.object(this.endPoint + '/currentset').set(newCurrentSet);
+
+            const newCard = this.names[ Math.floor(Math.random() * this.names.length) ];
+            this.cardStack.push(newCard);
+          });
+        }
+        else {
+          this.noCardsMessage = 'You\'ve seen all names!';
+        }
+      });
     }
   }
 
-  addNewCard() {
-    this.card = [];
-    this.getSubset();
-    if (this.subset && this.subset.length > 0) {
-      this.card = this.subset;
-      this.subset.indexOf(this.subset, this.card[ 0 ].$value);
-    }
-  }
-
-  getSubset() {
-    const amount = 1;
-    const a = this.utils.substractArray(this.names, this.excludedNamesArray);
-    const random = Math.floor(Math.random() * a.length);
-    const r = (random >= a.length - amount ) ? a.length - amount : random;
-
-    this.subset = a.slice(r, r + amount);
-    //
-    console.log('1this.subset', this.subset);
-    console.log('1this.excludedNamesArray', this.excludedNamesArray);
-    console.log('1a', a);
-    console.log('1r', r);
-    console.log('1random', random);
-    console.log('1slice', a.slice(r, r + amount));
-
-  }
-
-  decimalToHex( d, padding ) {
-    var hex = Number(d).toString(16);
-    padding = typeof (padding) === 'undefined' || padding === null ? padding = 2 : padding;
-
-    while (hex.length < padding) {
-      hex = '0' + hex;
-    }
-
-    return hex;
-  }
-
-  sneak() {
-    this.data.push('users/' + this.user.$key + '/names/' + this.gender + '/excluded', this.card[ 0 ].$value);
+  private sneak() {
+    this.data.push('users/' + this.user.$key + '/names/' + this.gender + '/excluded', this.cardStack[ 0 ].$value);
   }
 }
