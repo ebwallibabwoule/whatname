@@ -1,12 +1,10 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DataProvider } from '../../providers/data';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/take';
 
 import {
-  StackConfig,
-  DragEvent,
-  SwingStackComponent
+  StackConfig
 } from 'angular2-swing';
 
 
@@ -16,11 +14,10 @@ import {
 })
 
 export class CardComponent {
-  @ViewChild('swingstack') swingStack: SwingStackComponent;
   stackConfig: StackConfig;
   endPoint: string = '';
   cardStack: Array<any>;
-  noCardsMessage: string = 'Loading...';
+  noCardsMessage: string = 'Loading more names';
   user;
 
   @Input() gender: string = 'girl';
@@ -82,9 +79,10 @@ export class CardComponent {
       this.data.object(this.endPoint).take(1).subscribe(( userData ) => {
         if (userData.totalset > userData.currentset) {
           const newCurrentSet = userData.currentset + 1;
-          this.data.list('names/' + this.gender).take(1).subscribe(( names ) => {
+          this.data.list('names/' + userData.local + '/' + this.gender).take(1).subscribe(( names ) => {
             this.names = names.slice(userData.currentset * userData.setsize, newCurrentSet * userData.setsize);
 
+            /* Loop through list and keep keys and values intact and set it as objects in personal name repo  */
             let key = [];
             for (let a = 0; a < this.names.length; a++) {
               key[ this.names[ a ].$key ] = this.names[ a ].$value;

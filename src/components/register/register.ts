@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthProvider } from '../../providers/auth';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { AccountPage } from '../../pages/account/account';
 import { DataProvider } from '../../providers/data';
 import { UtilsProvider } from '../../providers/utils';
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'register',
@@ -11,9 +12,8 @@ import { UtilsProvider } from '../../providers/utils';
 })
 
 export class RegisterComponent {
-  account = { email: '', password: '' };
+  account = { email: '', password: '', local: 'us' };
   user;
-  userData;
 
   constructor( private data: DataProvider,
                private auth: AuthProvider,
@@ -46,7 +46,8 @@ export class RegisterComponent {
   }
 
   setUpAccount() {
-    const userService = this.data.object('names').subscribe(names => {
+    console.log('names/' + this.account.local);
+    this.data.object('names/' + this.account.local).take(1).subscribe(names => {
       const nameSetSize: number = 100;
 
       const namesInfo = {
@@ -67,9 +68,7 @@ export class RegisterComponent {
       this.data.setUserValue('id', this.user.email).subscribe();
       this.data.setUserValue('matchcode', this.generateRandomString()).subscribe();
       this.data.setUserValue('names', namesInfo).subscribe();
-
-
-      userService.unsubscribe();
+      this.data.setUserValue('local', this.account.local).subscribe();
     });
   }
 
