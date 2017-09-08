@@ -1,38 +1,35 @@
-<div class="wiggle" padding swing-stack #swingstack [stackConfig]="stackConfig" (throwoutleft)="vote(false, event)"
-     (throwoutright)="vote(true, event)"
-     id="card-stack">
-    <ion-card class="balloon zoom-pop-late" #swingcards swing-card *ngFor="let name of cardStack">
-        <ion-item>
-            {{ name.$value }}
-        </ion-item>
-    </ion-card>
-    <ion-card class="balloon" *ngIf="!cardStack || cardStack.length == 0">
-        <ion-item>
-            {{ noCardsMessage }}
-        </ion-item>
-    </ion-card>
-</div>
-<div class="kawaii zoom-pop" tabindex="-1">
-    <div class="eyes">
-        <div class="eye eye-left"></div>
-        <div class="eye eye-right"></div>
+<ion-content *ngIf="names">
+    <div class="wiggle" padding swing-stack #swingstack [stackConfig]="stackConfig" (throwoutleft)="vote(false, event)"
+         (throwoutright)="vote(true, event)"
+         id="card-stack">
+        <ion-card class="balloon zoom-pop-late" #swingcards swing-card *ngFor="let name of cardStack">
+            <ion-item>
+                {{ name.$value }}
+            </ion-item>
+        </ion-card>
+        <ion-card class="balloon" *ngIf="!cardStack || cardStack.length == 0">
+            <ion-item>
+                {{ noCardsMessage }}
+            </ion-item>
+        </ion-card>
     </div>
-    <div class="mouth"></div>
-</div>
-<ng-container *ngIf="cardStack && cardStack.length > 0">
-    <ion-fab padding left top>
-        <button ion-fab color="primary" (click)="vote(false)">
-            <ion-icon name="thumbs-down"></ion-icon>
-        </button>
-    </ion-fab>
-    <ion-fab padding right top>
-        <button ion-fab color="primary" (click)="vote(true)">
-            <ion-icon name="thumbs-up"></ion-icon>
-        </button>
-    </ion-fab>
-    <!--<ion-fab padding center bottom>-->
-        <!--<button ion-fab color="danger" (click)="sneak()">-->
-            <!--<ion-icon name="trash"></ion-icon>-->
-        <!--</button>-->
-    <!--</ion-fab>-->
-</ng-container>
+    <div class="kawaii zoom-pop" [ngClass]="{'match' : match}" tabindex="-1">
+        <div class="eyes">
+            <div class="eye eye-left"></div>
+            <div class="eye eye-right"></div>
+        </div>
+        <div class="mouth"></div>
+    </div>
+    <ng-container *ngIf="cardStack && cardStack.length > 0">
+        <ion-fab padding left top>
+            <button ion-fab color="primary" (click)="vote(false)">
+                <ion-icon name="thumbs-down"></ion-icon>
+            </button>
+        </ion-fab>
+        <ion-fab padding right top>
+            <button ion-fab color="primary" (click)="vote(true)">
+                <ion-icon name="thumbs-up"></ion-icon>
+            </button>
+        </ion-fab>
+    </ng-container>
+</ion-content>

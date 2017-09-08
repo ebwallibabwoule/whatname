@@ -47,7 +47,7 @@ export class RegisterComponent {
 
   private setUpAccount() {
     this.data.object('names/' + this.account.local).take(1).subscribe(names => {
-      const nameSetSize: number = 10;
+      const nameSetSize: number = 100;
 
       const namesInfo = {
         'boy': {
