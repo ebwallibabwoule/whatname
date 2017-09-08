@@ -9,7 +9,7 @@ import { DataProvider } from '../../providers/data';
 
 export class AddNameComponent {
   name = { name: '', gender: 'boy' };
-  user;
+  user: any;
 
   constructor( private data: DataProvider, private utils: UtilsProvider ) {
     this.data.getUserData().subscribe(user => {
@@ -17,8 +17,7 @@ export class AddNameComponent {
     });
   }
 
-
-  addName() {
+  public addName() {
     if (this.name.name) {
       this.data.push('users/' + this.user.$key + '/names/' + this.name.gender + '/liked', this.name.name.trim());
       this.utils.toast({ message: this.name.gender + ' name "' + this.name.name + '" has been added to your favorites' })

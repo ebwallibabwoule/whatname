@@ -14,13 +14,8 @@
 
                     <ion-list radio-group [(ngModel)]="account.local" name="gender">
                         <ion-item>
-                            <ion-label>Popular names in the Netherlands</ion-label>
-                            <ion-radio value="nl"></ion-radio>
-                        </ion-item>
-
-                        <ion-item>
                             <ion-label>Popular names in the USA</ion-label>
-                            <ion-radio value="us"></ion-radio>
+                            <ion-radio value="us" checked="true"></ion-radio>
                         </ion-item>
 
                         <ion-item>
@@ -37,6 +32,12 @@
                             <ion-label>Popular names in Germany</ion-label>
                             <ion-radio value="de"></ion-radio>
                         </ion-item>
+
+                        <ion-item>
+                            <ion-label>Popular names in the Netherlands</ion-label>
+                            <ion-radio value="nl"></ion-radio>
+                        </ion-item>
+
                     </ion-list>
 
                     <ion-item>

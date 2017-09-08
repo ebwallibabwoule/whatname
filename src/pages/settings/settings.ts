@@ -18,11 +18,11 @@ export class SettingsPage {
     });
   }
 
-  logout() {
+  public logout() {
     this.auth.logout();
   }
 
-  login(loginOption) {
+  public login(loginOption) {
     switch(loginOption) {
       case 'google':
         this.auth.loginGoogle();
@@ -45,7 +45,7 @@ export class SettingsPage {
     }
   }
 
-  goToRegister() {
+  public goToRegister() {
     this.navCtrl.push(RegisterPage);
   }
 

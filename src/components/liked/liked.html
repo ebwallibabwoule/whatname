@@ -1,11 +1,11 @@
-<ion-grid>
+<ion-grid col-xl-8>
     <ion-row *ngIf="!(matched && matched.boy && matched.boy.length > 0) &&
                     !(matched && matched.girl && matched.girl.length > 0) && visible">
         <ion-col col-12>
             <ion-item color="warning">
-                <ion-icon name="warning" item-start=""></ion-icon>
+                <ion-icon name="warning" item-start></ion-icon>
                 <h3>No matches yet</h3>
-                <p>Connect to another user and see if your matches!</p>
+                <p>Connect to another user and see the matching names!</p>
             </ion-item>
         </ion-col>
     </ion-row>
@@ -13,7 +13,7 @@
                     !(voted && voted.girl && voted.girl.length > 0) && visible">
         <ion-col col-12>
             <ion-item color="warning">
-                <ion-icon name="warning" item-start=""></ion-icon>
+                <ion-icon name="warning" item-start></ion-icon>
                 <h3>No favorites yet</h3>
                 <p>Start rating!</p>
             </ion-item>

@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth';
 
 @Component({
   selector: 'page-account',
   templateUrl: 'account.html'
 })
 export class AccountPage {
+  user: any;
 
-  constructor(public navCtrl: NavController) {}
-
+  constructor( private auth: AuthProvider) {
+    this.auth.getUser().subscribe(user => {
+      this.user = user;
+    });
+  }
 }

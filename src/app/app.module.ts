@@ -25,7 +25,6 @@ import { AuthProvider } from '../providers/auth';
 import { UtilsProvider } from '../providers/utils';
 
 import { InviteComponent } from '../components/invite/invite';
-import { AccountComponent } from '../components/account/account';
 import { CardComponent } from '../components/card/card';
 import { LikedComponent } from '../components/liked/liked';
 import { UserComponent } from '../components/user/user';
@@ -50,7 +49,6 @@ export const firebaseConfig = {
     SettingsPage,
     RegisterPage,
     InviteComponent,
-    AccountComponent,
     CardComponent,
     LikedComponent,
     UserComponent,
@@ -78,7 +76,6 @@ export const firebaseConfig = {
     SettingsPage,
     RegisterPage,
     InviteComponent,
-    AccountComponent,
     CardComponent,
     LikedComponent,
     UserComponent,

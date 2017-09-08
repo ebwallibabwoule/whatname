@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthProvider } from '../../providers/auth';
 import { DataProvider } from '../../providers/data';
-import { ToastController } from 'ionic-angular';
+import { UtilsProvider } from '../../providers/utils';
+import 'rxjs/add/operator/take';
 
 @Component({
   selector: 'connect-accounts',
@@ -10,32 +11,19 @@ import { ToastController } from 'ionic-angular';
 
 export class ConnectAccountsComponent {
   account = { code: '' };
-  uid;
-  user;
-  email;
-  thisuser;
+  uid: string;
+  user: any;
+  email: string;
 
-  constructor( private auth: AuthProvider, private data: DataProvider, private toastCtrl: ToastController ) {
-    let userService = this.auth.getUser().subscribe(thisuser => {
+  constructor( private auth: AuthProvider, private data: DataProvider, private utils: UtilsProvider ) {
+    this.auth.getUser().take(1).subscribe(thisuser => {
       this.uid = thisuser.uid;
       this.email = thisuser.email;
       this.user = thisuser;
-      userService.unsubscribe();
     });
   }
 
-
-  presentToast( message ) {
-    let toast = this.toastCtrl.create({
-      message: message,
-      duration: 3000,
-      position: 'bottom'
-    });
-    toast.present();
-  }
-
-
-  connect() {
+  private connect() {
     const code = this.account.code;
     const matchingUser = this.data.list('users', {
       query: {
@@ -44,32 +32,43 @@ export class ConnectAccountsComponent {
       }
     });
 
-    matchingUser.subscribe(userResult => {
-      const root = 'users';
-      const user = userResult[ 0 ];
+    matchingUser.take(1).subscribe(userResult => {
+      if (userResult.length == 1) {
+        const user = userResult[ 0 ];
 
-      const loggedInUser = this.data.list(root, {
-        query: {
-          orderByChild: 'uid',
-          equalTo: this.uid
-        }
-      });
+        const loggedInUser = this.data.list('users', {
+          query: {
+            orderByChild: 'uid',
+            equalTo: this.uid
+          }
+        });
 
-      loggedInUser.subscribe(user2 => {
-        const kaas = user2[ 0 ];
-        kaas[ 'match' ] = user.uid;
-        kaas[ 'connected' ] = user.id;
+        loggedInUser.subscribe(userResult2 => {
+          const user2 = userResult2[ 0 ];
 
-        this.data.object(root + '/' + user2[ 0 ].$key).set(kaas);
+          if (user2.uid != user.uid) {
+            user2[ 'match' ] = user.uid;
+            user2[ 'connected' ] = user.id;
 
-        const faas = user;
-        faas[ 'match' ] = kaas.uid;
-        faas[ 'connected' ] = kaas.id;
+            this.data.object('users/' + userResult2[ 0 ].$key).set(user2);
 
-        this.data.object(root + '/' + user.$key).set(faas);
-      });
+            const user1 = user;
+            user1[ 'match' ] = user2.uid;
+            user1[ 'connected' ] = user2.id;
 
-      this.presentToast('Connected!');
+            this.data.object('users/' + user.$key).set(user1);
+
+            this.utils.toast({message: 'Connected to ' + user1.id + '!'});
+          }
+          else {
+            this.utils.toast({message: 'You cannot connect with yourself' });
+          }
+        });
+      }
+      else {
+        this.utils.toast({message: 'This code is invalid' });
+      }
+
     });
   }
 }

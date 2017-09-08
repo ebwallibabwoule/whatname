@@ -27,7 +27,7 @@ export class InviteComponent {
     });
   }
 
-  checkEmail(event) {
+  public checkEmail(event) {
     this.validEmail = this.emailRegEx.test(event.target.value);
     if (this.validEmail) {
       this.mailLink = this.uri + encodeURI(event.target.value) + '?subject=' + encodeURI(this.subject) + '&body=' + encodeURI(this.body);

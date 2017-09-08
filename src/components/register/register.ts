@@ -13,7 +13,7 @@ import 'rxjs/add/operator/take';
 
 export class RegisterComponent {
   account = { email: '', password: '', local: 'us' };
-  user;
+  user: any;
 
   constructor( private data: DataProvider,
                private auth: AuthProvider,
@@ -22,7 +22,7 @@ export class RegisterComponent {
   }
 
 
-  register() {
+  private register() {
     this.auth.register(this.account.email.trim(), this.account.password).subscribe(
       data => {
         let message;
@@ -45,10 +45,9 @@ export class RegisterComponent {
     );
   }
 
-  setUpAccount() {
-    console.log('names/' + this.account.local);
+  private setUpAccount() {
     this.data.object('names/' + this.account.local).take(1).subscribe(names => {
-      const nameSetSize: number = 100;
+      const nameSetSize: number = 10;
 
       const namesInfo = {
         'boy': {
