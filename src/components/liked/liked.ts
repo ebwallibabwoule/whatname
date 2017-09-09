@@ -1,5 +1,5 @@
 import { DataProvider } from '../../providers/data';
-import { Component, ViewChildren, OnInit } from '@angular/core';
+import { Component, ViewChildren } from '@angular/core';
 import { UtilsProvider } from '../../providers/utils';
 
 @Component({

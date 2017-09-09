@@ -22,7 +22,7 @@ export class RegisterComponent {
   }
 
 
-  private register() {
+  public register() {
     this.auth.register(this.account.email.trim(), this.account.password).subscribe(
       data => {
         let message;
@@ -47,20 +47,18 @@ export class RegisterComponent {
 
   private setUpAccount() {
     this.data.object('names/' + this.account.local).take(1).subscribe(names => {
-      const nameSetSize: number = 100;
+      const nameSetSize: number = 10;
 
       const namesInfo = {
         'boy': {
           'totalset': Math.ceil( names.boy.length / nameSetSize ),
-          'currentset': 1,
-          'setsize': nameSetSize,
-          'repo': names.boy.slice(0, nameSetSize)
+          'currentset': 0,
+          'setsize': nameSetSize
         },
         'girl': {
           'totalset': Math.ceil( names.girl.length / nameSetSize ),
-          'currentset': 1,
-          'setsize': nameSetSize,
-          'repo': names.girl.slice(0, nameSetSize)
+          'currentset': 0,
+          'setsize': nameSetSize
         }
       };
 

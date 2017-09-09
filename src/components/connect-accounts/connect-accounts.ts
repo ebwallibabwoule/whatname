@@ -23,7 +23,7 @@ export class ConnectAccountsComponent {
     });
   }
 
-  private connect() {
+  public connect() {
     const code = this.account.code;
     const matchingUser = this.data.list('users', {
       query: {

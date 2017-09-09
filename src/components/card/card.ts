@@ -15,11 +15,12 @@ export class CardComponent {
   stackConfig: StackConfig;
   endPoint: string = '';
   cardStack: Array<any>;
-  noCardsMessage: string = 'Loading more names';
+  noCardsMessage: string = 'Loading names...';
   user: any;
   match: boolean = false;
   matchedUserLikes: Array<any> = [];
   names: Array<any> = [];
+  counter: number = 0;
 
   @Input() gender: string = 'girl';
 
@@ -36,7 +37,6 @@ export class CardComponent {
       }
     };
 
-
     this.utils.load({ text: 'Loading ' + this.gender + ' names', show: true });
     this.data.getUserData().take(1).subscribe(( user ) => {
       this.user = user;
@@ -44,6 +44,13 @@ export class CardComponent {
 
       this.data.list(this.endPoint + '/repo').subscribe(names => {
         this.names = names;
+
+        this.counter += 1;
+        if (this.counter == 1) {
+          this.addNewCard();
+          this.utils.load({ show: false });
+        }
+
         if (user.match) {
           this.data.getMatchedUserData().take(1).subscribe(matchedData => {
             this.data.list('users/' + matchedData.$key + '/names/' + this.gender + '/liked').subscribe(votes => {
@@ -51,11 +58,7 @@ export class CardComponent {
             });
           });
         }
-
       });
-      this.addNewCard();
-      this.utils.load({ show: false });
-
     });
   }
 
@@ -69,7 +72,6 @@ export class CardComponent {
     element.style[ 'transform' ] = `translate3d(0, 0, 0) translate(${x}px, ${y}px) rotate(${r}deg)`;
   }
 
-
   public vote( like: boolean ) {
     const card = this.cardStack[ 0 ];
     this.data.list(this.endPoint + '/repo').remove(card.$key).then(() => {
@@ -77,11 +79,11 @@ export class CardComponent {
         this.data.push(this.endPoint + '/liked', card.$value);
 
         if (this.matchedUserLikes.length > 0 && this.nameMatches(card.$value)) {
-          this.utils.toast({ message: card.$value + ' matched!'})
+          this.utils.toast({ message: card.$value + ' matched!' });
           this.match = true;
           setTimeout(() => {
             this.match = false;
-          }, 3000)
+          }, 3000);
         }
       }
       else {
@@ -104,8 +106,8 @@ export class CardComponent {
     else {
       this.data.object(this.endPoint).take(1).subscribe(( userData ) => {
         if (userData.totalset > userData.currentset) {
-          const newCurrentSet = userData.currentset + 1;
           this.data.list('names/' + this.user.local + '/' + this.gender).take(1).subscribe(( names ) => {
+            const newCurrentSet = userData.currentset + 1;
             this.names = names.slice(userData.currentset * userData.setsize, newCurrentSet * userData.setsize);
 
             /* Loop through list and keep keys and values intact and set it as objects in personal name repo  */

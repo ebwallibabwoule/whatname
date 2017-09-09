@@ -15,7 +15,7 @@ export class UserComponent {
     let userService = this.auth.getUser().subscribe(user => {
       this.user = user;
       userService.unsubscribe();
-      data.getUserData().subscribe((userData) => {
+      this.data.getUserData().subscribe((userData) => {
         this.userData = userData;
       });
     });
