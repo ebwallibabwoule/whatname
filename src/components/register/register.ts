@@ -14,13 +14,17 @@ import 'rxjs/add/operator/take';
 export class RegisterComponent {
   account = { email: '', password: '', local: 'us' };
   user: any;
+  locals: Array<any> = [];
 
   constructor( private data: DataProvider,
                private auth: AuthProvider,
                private utils: UtilsProvider,
                private navCtrl: NavController ) {
-  }
 
+    this.data.list('/names').subscribe(locals => {
+      this.locals = locals;
+    });
+  }
 
   public register() {
     this.auth.register(this.account.email.trim(), this.account.password).subscribe(
