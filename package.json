@@ -1,8 +1,8 @@
 {
-    "name": "ionicApp",
-    "version": "0.0.1",
-    "author": "Ionic Framework",
-    "homepage": "http://ionicframework.com/",
+    "name": "WhatName!",
+    "version": "1.0.2",
+    "author": "Emmanuel Maltete",
+    "homepage": "http://emmanuelweethetwel.nl/",
     "private": true,
     "scripts": {
         "clean": "ionic-app-scripts clean",
