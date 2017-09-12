@@ -4,6 +4,7 @@
         <h2>Your data</h2>
     </ion-item-divider>
     <ion-item>E-mail: {{ user?.email }}</ion-item>
+    <ion-item *ngIf="userData && userData.local">Names popular in: {{ userData.local.toUpperCase() }}</ion-item>
     <ion-item *ngIf="userData && userData.connected">Connected: {{ userData.connected }}</ion-item>
     <ion-item *ngIf="userData && !userData.connected">Not connected yet! Send an invite! :-)</ion-item>
 </ion-list>
