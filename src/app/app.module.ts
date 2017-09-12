@@ -32,11 +32,19 @@ import { ConnectAccountsComponent } from '../components/connect-accounts/connect
 import { RegisterComponent } from '../components/register/register';
 import { AddNameComponent } from '../components/add-name/add-name';
 
+declare var window;
+
+export class MyErrorHandler implements ErrorHandler {
+  handleError( err: any ): void {
+    window.Ionic.handleNewError(err);
+  }
+}
+
 export const firebaseConfig = {
   apiKey: 'AIzaSyAOk1hjvqnhf2WLramxxzAWocIJ7RGDd9Y',
   authDomain: 'whatname-420ab.firebaseapp.com',
   databaseURL: 'https://whatname-420ab.firebaseio.com',
-  storageBucket: 'whatname-420ab.appspot.com',
+  storageBucket: 'whatname-420ab.appspot.com'
 };
 
 @NgModule({
@@ -54,7 +62,7 @@ export const firebaseConfig = {
     UserComponent,
     RegisterComponent,
     ConnectAccountsComponent,
-    AddNameComponent,
+    AddNameComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +74,7 @@ export const firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  bootstrap: [IonicApp],
+  bootstrap: [ IonicApp ],
   entryComponents: [
     WhatNameApp,
     AccountPage,
@@ -86,7 +94,7 @@ export const firebaseConfig = {
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     DataProvider,
     AuthProvider,
     UtilsProvider,
@@ -94,4 +102,5 @@ export const firebaseConfig = {
   ]
 })
 
-export class AppModule {}
+export class AppModule {
+}
