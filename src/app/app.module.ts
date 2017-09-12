@@ -95,7 +95,7 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    { provide: ErrorHandler, useClass: MyErrorHandler },
+    [{ provide: ErrorHandler, useClass: MyErrorHandler }],
     DataProvider,
     AuthProvider,
     UtilsProvider,
