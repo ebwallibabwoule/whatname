@@ -11,7 +11,8 @@ export class UserComponent {
   user;
   userData;
 
-  constructor( private auth: AuthProvider, private data: DataProvider ) {
+  constructor( private auth: AuthProvider,
+               private data: DataProvider ) {
     let userService = this.auth.getUser().subscribe(user => {
       this.user = user;
       userService.unsubscribe();

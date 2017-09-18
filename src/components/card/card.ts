@@ -5,7 +5,6 @@ import { UtilsProvider } from '../../providers/utils';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/take';
 
-
 @Component({
   selector: 'ion-card-container',
   templateUrl: 'card.html'

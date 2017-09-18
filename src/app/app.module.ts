@@ -2,6 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicStorageModule } from '@ionic/storage';
 import { NativeStorage } from '@ionic-native/native-storage';
+import { AdMobFree } from '@ionic-native/admob-free';
 
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { WhatNameApp } from './app.component';
@@ -23,6 +24,7 @@ import { SwingModule } from 'angular2-swing';
 import { DataProvider } from '../providers/data';
 import { AuthProvider } from '../providers/auth';
 import { UtilsProvider } from '../providers/utils';
+import { Ads } from '../providers/ads';
 
 import { InviteComponent } from '../components/invite/invite';
 import { CardComponent } from '../components/card/card';
@@ -40,11 +42,20 @@ export class MyErrorHandler implements ErrorHandler {
   }
 }
 
+// export const firebaseConfig = {
+//   apiKey: 'AIzaSyAOk1hjvqnhf2WLramxxzAWocIJ7RGDd9Y',
+//   authDomain: 'whatname-420ab.firebaseapp.com',
+//   databaseURL: 'https://whatname-420ab.firebaseio.com',
+//   storageBucket: 'whatname-420ab.appspot.com'
+// };
+
 export const firebaseConfig = {
-  apiKey: 'AIzaSyAOk1hjvqnhf2WLramxxzAWocIJ7RGDd9Y',
-  authDomain: 'whatname-420ab.firebaseapp.com',
-  databaseURL: 'https://whatname-420ab.firebaseio.com',
-  storageBucket: 'whatname-420ab.appspot.com'
+  apiKey: "AIzaSyCa35wfVeRg4MY8JQKlr6aHN2vLY-PSY7A",
+  authDomain: "whatname-54e8d.firebaseapp.com",
+  databaseURL: "https://whatname-54e8d.firebaseio.com",
+  projectId: "whatname-54e8d",
+  storageBucket: "whatname-54e8d.appspot.com",
+  messagingSenderId: "822091374357"
 };
 
 @NgModule({
@@ -99,7 +110,9 @@ export const firebaseConfig = {
     DataProvider,
     AuthProvider,
     UtilsProvider,
-    NativeStorage
+    NativeStorage,
+    AdMobFree,
+    Ads
   ]
 })
 

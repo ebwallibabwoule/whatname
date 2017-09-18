@@ -1,6 +1,7 @@
 import { DataProvider } from '../../providers/data';
 import { Component, ViewChildren } from '@angular/core';
 import { UtilsProvider } from '../../providers/utils';
+import { Ads } from '../../providers/ads';
 
 @Component({
   selector: 'liked',
@@ -22,8 +23,10 @@ export class LikedComponent {
   unlikedVisible: boolean = false;
   objectKeys: any = Object.keys;
 
-  constructor( private data: DataProvider, private utils: UtilsProvider ) {
+  constructor( private data: DataProvider, private utils: UtilsProvider, private ads: Ads ) {
     this.data.getUserData().subscribe(data => {
+      console.log("Dw");
+      this.ads.show();
       this.key = data.$key;
 
       this.data.list('users/' + this.key + '/names/boy/liked').subscribe(votes => {
