@@ -25,8 +25,7 @@ export class LikedComponent {
 
   constructor( private data: DataProvider, private utils: UtilsProvider, private ads: Ads ) {
     this.data.getUserData().subscribe(data => {
-      console.log("Dw");
-      this.ads.show();
+      // this.ads.show();
       this.key = data.$key;
 
       this.data.list('users/' + this.key + '/names/boy/liked').subscribe(votes => {
